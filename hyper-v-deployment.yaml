@@ -1,1 +1,21 @@
-
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: hyper-v
+  name: hyper-v
+  namespace: non-critical-systems
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hyper-v
+  template:
+    metadata:
+      labels:
+        app: hyper-v
+    spec:
+      serviceAccountName: hyper-v-sa
+      containers:
+      - name: hyper-v
+        image: notmiddev30/test-k8s:0.4
