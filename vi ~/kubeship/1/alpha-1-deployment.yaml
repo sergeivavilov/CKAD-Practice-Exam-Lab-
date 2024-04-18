@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpha-1
+  namespace: critical-systems
+spec:
+  replicas: 1  # Assuming you want one replica
+  selector:
+    matchLabels:
+      app: alpha-1  # This must match the labels in the template.metadata.labels section
+  template:
+    metadata:
+      labels:
+        app: alpha-1  # This must match the selector.matchLabels
+    spec:
+      containers:
+      - name: alpha-container
+        image: notmiddev30/alpha-app:0.1
+        ports:
+        - containerPort: 5000
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 3
