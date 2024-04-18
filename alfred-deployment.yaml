@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alfred
+  namespace: kube-ship-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alfred
+  template:
+    metadata:
+      labels:
+        app: alfred
+    spec:
+      serviceAccountName: alfred-sa
+      containers:
+      - name: alfred
+        image: yourimage/repo:tag
+        ports:
+        - containerPort: 8080
