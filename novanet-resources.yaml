@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: novanet-resources
+  namespace: warp
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:stable
+    resources:
+      requests:
+        cpu: "400m"
+        memory: "1Gi"
