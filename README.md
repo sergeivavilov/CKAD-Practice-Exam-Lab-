@@ -176,3 +176,110 @@ kubectl apply -f novanet-resources.yaml
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+5.
+
+
+
+
+
+CKAD Practice Exam
+Lab launched. It will end if the time runs out or you press the "Finish" button in the last task.
+20%
+completed
+1:17:33left
+Challenge
+
+Show hint
+
+Watch video
+
+Topic: Deployment , Environment variables
+
+Context:
+
+The leader of gravity-grid corps asked you to create a new Deployment for running NGINX
+
+Task:
+
+1. Create a Deployment called lunar in the existing gravity-grid namespace running 6 replicas of a Pod. Specify a single container using the Ifccncf/nginx:1.12.2 image. 
+2. Add an environment variable named NGINX_PORT with value 8080 to the container then expose port 8080. 
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+vi lunar-service.yaml
+kubectl apply -f lunar-service.yaml
+kubectl get svc -n gravity-grid
+kubectl get nodes -o wide
+
+kubectl create secret docker-registry myregistrysecret \
+--docker-server=YOUR_REGISTRY_SERVER \
+--docker-username=YOUR_REGISTRY_USERNAME \
+--docker-password=YOUR_REGISTRY_PASSWORD \
+--docker-email=YOUR_REGISTRY_EMAIL \
+-n gravity-grid
+
+
+vi lunar-deployment.yaml
+kubectl apply -f lunar-deployment.yaml
+kubectl get pods -n gravity-grid -l app=lunar
+kubectl describe pod -n gravity-grid -l app=lunar
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+6.
+
+
+
+CKAD Practice Exam
+Lab launched. It will end if the time runs out or you press the "Finish" button in the last task.
+12%
+completed
+0:03:53left
+Challenge
+
+Show hint
+
+Watch video
+
+Topic: API-deprecation, Deployment
+
+Context:
+
+You are asked to deploy an application developed for an older version of Kubernetes on a cluster running a recent version of Kubernetes.
+
+Task:
+
+1. Fix any API-deprecation issues in the manifest file ~/kubeship/6/orion-ops.yaml so that the application can be deployed on the cluster. 
+Info: The application was developed for Kubernetes `v1.15`. The cluster k8s runs recent version of Kubernetes
+2. Deploy the application specified in the updated manifest file ~/kubeship/6/orion-ops.yaml in namespace celestial-core. 
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+vi ~/kubeship/6/orion-ops.yaml
+kubectl apply -f ~/kubeship/6/orion-ops.yaml -n celestial-core
+kubectl get deployment orion-ops -n celestial-core
+kubectl get pods -n celestial-core
+kubectl describe deployment orion-ops -n celestial-core
+kubectl get pods -n celestial-core
+kubectl logs orion-ops-123abc -n celestial-core
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+7.
+
+
+
+
