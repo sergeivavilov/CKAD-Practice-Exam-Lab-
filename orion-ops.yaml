@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: orion-ops
+  name: orion-ops
+  namespace: celestial-core  # Make sure the namespace is specified if needed
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: orion-ops
+  template:
+    metadata:
+      labels:
+        app: orion-ops
+    spec:
+      containers:
+      - image: httpd:2.4.41-alpine
+        name: orion-container
+        env:
+        - name: PASSWORD
+          value: "4fd$djfhj"
+        ports:
+        - containerPort: 80
