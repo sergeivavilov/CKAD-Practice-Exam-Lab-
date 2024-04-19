@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  labels:
+    app: rocket
+  name: rocket
+  namespace: non-critical-systems
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: rocket
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 4
+      maxUnavailable: 4
+  template:
+    metadata:
+      labels:
+        app: rocket
+    spec:
+      containers:
+        - name: busybox
+          image: busybox:1.31
+          command:
+            - sleep
+            - "86400"
+      restartPolicy: Always
