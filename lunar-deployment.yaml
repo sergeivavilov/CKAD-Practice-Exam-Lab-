@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lunar
+  namespace: gravity-grid
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: lunar
+  template:
+    metadata:
+      labels:
+        app: lunar
+    spec:
+      containers:
+      - name: nginx
+        image: ifccncf/nginx:1.12.2
+        ports:
+        - containerPort: 8080
+        env:
+        - name: NGINX_PORT
+          value: "8080"
+      imagePullSecrets:
+      - name: myregistrysecret
