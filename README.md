@@ -612,9 +612,96 @@ kubectl apply -f ~/kubeship/13/galactix-db.yaml
 
 
 
+14.
 
 
 
+CKAD Practice Exam
+Lab launched. It will end if the time runs out or you press the "Finish" button in the last task.
+12%
+completed
+1:04:28left
+Challenge
+
+Show hint
+
+Watch video
+
+Topic: Rollout Strategy, Deployment
+
+Task:
+
+A Service named stellar-service in the starfish namespace points to 5 Pods created by the Deployment named current-stellar-deployment.
+
+architecture
+
+Info: The current-stellar-deployment manifest file can be found at ~/kubeship/14/current-stellar-deployment.yaml
+1. Create an identical Deployment, named canary-stellar-deployment, in the same namespace. 
+
+2. Modify the Deployments so that: 
+
+  1) a maximum number of 10 Pods run in the 'starfish' namespace. 
+
+  2) 30% of the 'stellar-service' traffic goes to the canary-stellar-deployment Pods.
+architecture
+
+Info: The Service is exposed on NodePort '30000'. To test its load-balancing, run:
+
+[student@node-1] $ curl http://k8s-cp:30000/
+
+weight: 8%
+
+% of the 'stellar-service' traffic goes to the 'canary-stellar-deployment' Pods
+Other part of the 'stellar-service' traffic goes to the 'current-stellar-deployment' Pods
+A maximum number of 10 Pods run in the 'starfish' namespace
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+15.
+
+
+
+CKAD Practice Exam
+Lab launched. It will end if the time runs out or you press the "Finish" button in the last task.
+15%
+completed
+0:35:03left
+Challenge
+
+Show hint
+
+Watch video
+
+Topic: Dockerfile
+
+Task:
+
+A Dockerfile has been prepared at ~/kubeship/15/build/Dockerfile.
+
+1. Using the prepared Dockerfile, build a container image with the name space-cat and tag '1.1'. You may install and use the tool of your choise. 
+Info: Multiple image builders and tools have been pre-installed in the base system, including: 'docker', 'skopeo', 'buildah', 'img', and 'podman'.
+Reminder: Please do not push the built image to a registry, run a container, or otherwise consume it. 
+2. Using the tool of your choise, export the built container image in OCI-format and store it at ~/kubeship/15/images/space-cat-1.1.tar . 
+weight: 8%
+
+Using the prepared Dockerfile, build a container image with the name 'space-cat' and tag '1.1'
+Export the built container image in OCI-format and store it at '/opt/kubeship/15/images/space-cat-1.1.tar'
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
