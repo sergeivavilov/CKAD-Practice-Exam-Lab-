@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: galactix-db
+  namespace: milky-way
+  labels:
+    app.galactix.io/name: galactix-db
+    app.galactix.io/component: compute
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.galactix.io/name: galactix-db
+      app.galactix.io/component: compute
+  template:
+    metadata:
+      labels:
+        app.galactix.io/name: galactix-db
+        app.galactix.io/component: compute
+    spec:
+      containers:
+      - name: mongo
+        image: mongo:4.2
+        args:
+          - --bind_ip
+          - 0.0.0.0
+        resources:
+          requests:
+            memory: "160Mi"  # Set the memory request to 160Mi
+          limits:
+            memory: "320Mi"  # Set the memory limit to half the maximum memory constraint for the milky-way namespace
+        ports:
+        - containerPort: 27017
