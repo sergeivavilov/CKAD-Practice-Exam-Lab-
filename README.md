@@ -281,5 +281,381 @@ kubectl logs orion-ops-123abc -n celestial-core
 7.
 
 
+CKAD Practice Exam
+Lab launched. It will end if the time runs out or you press the "Finish" button in the last task.
+12%
+completed
+0:02:47left
+Challenge
 
+Show hint
+
+Watch video
+
+Topic: Secret, Pod consuming a Secret
+
+Context:
+
+The crew is planning a mission that involves sensitive data that needs to be stored securely.
+
+You are asked to create a Secret and consume it in a Pod.
+
+Task:
+
+1. Create a Secret named space-sentry-secret in the kube-ship-system namespace containing the following single key-value pair:
+    key-value:
+
+        `dest: astro`
+2. Create a pod named space-sentry in the kube-ship-system namespace. Specify a single container using the httpd:2.4.41-alpine image. 
+Add an environment variable named DESTINATION consuming the value of the secret key dest
+
+
+
+task : 
+
+Create a Secret named 'space-sentry-secret' containing the 'dest: astro' key-value pair
+Add an environment variable named 'DESTINATION'
+Variable named 'DESTINATION' should consume the value of the secret key 'dest'
+Specify a single container using the 'httpd:2.4.41-alpine' image
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+kubectl create secret generic space-sentry-secret --from-literal=dest=astro -n kube-ship-system
+vi space-sentry.yaml
+kubectl apply -f space-sentry.yaml
+kubectl get secrets -n kube-ship-system
+kubectl describe secret space-sentry-secret -n kube-ship-system
+kubectl get pods -n kube-ship-system
+kubectl describe pod space-sentry -n kube-ship-system
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+8.
+
+
+
+CKAD Practice Exam
+Lab launched. It will end if the time runs out or you press the "Finish" button in the last task.
+12%
+completed
+1:31:41left
+Challenge
+
+Show hint
+
+Watch video
+
+Topic: Deployment
+
+Context:
+
+You are asked to update an application and then perform a rollback of that update.
+
+Task:
+
+1. Update the proportional scaling configuration of the Deployment rocket in the non-critical-systems namespace setting maxSurge to 4 and maxUnavailable to 4. 
+2. Update the rocket Deployment to use version tag 1.31 for the busybox container image. 
+3. Perform a rollback of the app Deployment to its previous version.
+
+
+
+task 
+
+Set maxSurge to 4
+Set maxUnavailable to 4
+Update the Deployment to use version tag '1.31' for the 'busybox' container image
+Perform a rollback of the Deployment to its previous version
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+kubectl edit deployment rocket -n non-critical-systems
+
+look this file for correct 
+fixed-rocket-deployment.yaml
+
+
+kubectl rollout status deployment/rocket -n non-critical-systems
+kubectl rollout undo deployment/rocket -n non-critical-systems
+kubectl rollout status deployment/rocket -n non-critical-systems
+kubectl rollout history deployment/rocket -n non-critical-systems
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+9. 50% !!!!!
+
+
+
+CKAD Practice Exam
+Lab launched. It will end if the time runs out or you press the "Finish" button in the last task.
+12%
+completed
+1:30:26left
+Challenge
+
+Show hint
+
+Watch video
+
+Topic: SecurityContext
+
+Task:
+
+Modify the existing Deployment named cosmic-whale, running in a namespace star-stream, so that its containers:
+
+1) run with user ID `20000` and 
+
+2) privelege escalation is forbidden
+Info: the cosmic-whale manifest file can be found at ~/kubeship/9/cosmic-whale.yaml
+
+
+weight: 4%
+
+Modify the existing Deployment so that its containers run with user ID '20000'
+Modify the existing Deployment so that privelege escalation is forbidden for its containers
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+vi ~/kubeship/9/cosmic-whale.yaml
+kubectl apply -f ~/kubeship/9/cosmic-whale.yaml
+kubectl describe pod -l app=cosmic-whale -n star-stream
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+10.
+
+
+
+
+CKAD Practice Exam
+Lab launched. It will end if the time runs out or you press the "Finish" button in the last task.
+5%
+completed
+1:20:53left
+Challenge
+
+Show hint
+
+Watch video
+
+Context:
+
+The spaceship crew created a Pod that should be allowed to communicate with two other Pods but nothing else.
+
+Task:
+
+Update the Pod lunar-lander in the astro-link namespace to use a NetworkPolicy allowing the Pod to send and receive traffic only to and from the Pods connect-pod and compute-pod.
+
+Info: All required NetworkPolicies have already been created.
+Reminder: You must not create, modify or delete any NetworkPolicy while working on this task. You may only use existing NetworkPolicies.
+weight: 8%
+
+Update the Pod lunar-lander to use a NetworkPolicy allowing the Pod to send and receive traffic only to and from the Pods connect-pod and compute-pod 1
+Update the Pod lunar-lander to use a NetworkPolicy allowing the Pod to send and receive traffic only to and from the Pods connect-pod and compute-pod 2
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+11.
+
+CKAD Practice Exam
+Lab launched. It will end if the time runs out or you press the "Finish" button in the last task.
+16%
+completed
+0:48:21left
+Challenge
+
+Show hint
+
+Watch video
+
+Topic: CronJob, Job
+
+Context:
+
+A group of Astro Engineers need to periodically get a very long number for their calculations.
+
+Task:
+
+1. Create a CronJob named pi that executes a Pod running the following single container: 
+name: pi
+
+image: notmiddev30/pi:0.1
+
+command: ["go", "run", "pi.go"]
+
+Configure the Cronjob to:
+
+1) execute once every 5 minutes 
+
+2) keep 4 completed Job 
+
+3) keep 5 failed Job 
+
+4) never restart Pods 
+
+5) terminate Pods after 10 seconds 
+2. Manually create and execute one Job named pi-test from the pi CronJob for testing purposes. 
+Info: It doesn't matter if the Job completes or fails
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+vi pi-cronjob.yaml
+kubectl apply -f pi-cronjob.yaml
+vi pi-test-job.yaml
+kubectl apply -f pi-test-job.yaml
+kubectl delete cronjob pi
+kubectl apply -f pi-cronjob.yaml
+kubectl delete job pi-test
+kubectl apply -f pi-test-job.yaml
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+12.
+
+
+CKAD Practice Exam
+Lab launched. It will end if the time runs out or you press the "Finish" button in the last task.
+16%
+completed
+0:46:50left
+Challenge
+
+Show hint
+
+Watch video
+
+Topic: Ingress
+
+Task:
+
+A Deployment named orion-station-deploy, running in namespace galactix is exposed via Ingress orion-ingress.
+
+Info: The manifest files for the Deployment, Service and Ingress can be found at ~/kubeship/12/ .
+The Deployment is supposed to be reachable at http://k8s.local/orion-station, but requesting this URL is currently returning an error.
+
+Identify and fix the problems by updating the associated resources so that the Deployment becomes externally reachable as planned.
+
+Reminder: Don't modify the Deployment; you can assume the Deployment to be correct and functional. 
+Info: You can use the following command to test the Deployment's reachability:
+
+[student@node-1] $ curl -v http://k8s.local/orion-station
+
+weight: 8%
+
+The Deployment should become externally reachable at 'http://k8s.local/orion-station' 1
+The Deployment should become externally reachable at 'http://k8s.local/orion-station' 2
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+13. 
+
+
+
+CKAD Practice Exam
+Lab launched. It will end if the time runs out or you press the "Finish" button in the last task.
+4%
+completed
+1:23:34left
+Challenge
+
+Show hint
+
+Watch video
+
+Topic: Pod with resources
+
+Task:
+
+The Pod for the Deployment named galactix-db in the milky-way namespace fails to start because its Container runs out of resources.
+
+Update the galactix-db Deployment so that the Pod:
+
+1) requests '160Mi' of memory for its Container 
+
+2) limits the memory to half the maximum memory constraint set for the milky-way namespace 
+Info: The galactix-db Deployment's manifest file can be found at ~/kubeship/13/galactix-db.yaml
+weight: 8%
+
+Update the 'galactix-db' Deployment so that the Pod requests '160Mi' of memory for its Container
+Update the 'galactix-db' Deployment so that the Pod limits the memory to half the maximum memory constraint set for the milky-way namespace
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+vi ~/kubeship/13/galactix-db.yaml
+kubectl apply -f ~/kubeship/13/galactix-db.yaml
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+16. 50 % !!!
+
+
+
+
+CKAD Practice Exam
+Lab launched. It will end if the time runs out or you press the "Finish" button in the last task.
+2%
+completed
+1:54:54left
+Challenge
+
+Show hint
+
+Watch video
+
+Task:
+
+First update the Deployment starblaze-deployment in the starblaze namespace:
+
+1. To run 3 replicas of the pod
+Add the following label on the pod:
+
+    star: thousand 
+Next, create a NodePort Service named nebula in the starblaze namespace exposing the starblaze-deployment Deployment on TCP port 8888
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+kubectl edit deployment starblaze-deployment -n starblaze
+
+look  starblaze-deployment.yaml
+kubectl get deployment -n starblaze
+
+vi nebula-node.yaml
+kubectl apply -f nebula-node.yaml
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
