@@ -1,0 +1,33 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"nginx.ingress.kubernetes.io/rewrite-target":"/"},"name":"orion-gress","namespace":"galactix"},"spec":{"ingressClassName":"nginx","rules":[{"http":{"paths":[{"backend":{"service":{"name":"orion-station-svc","port":{umber":80}}},"path":"/orion-station","pathType":"Prefix"}]}}]}}
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  creationTimestamp: "2024-04-20T22:40:29Z"
+  generation: 1
+  name: orion-ingress
+  namespace: galactix
+  resourceVersion: "2360"
+  uid: 9dc1ffe6-9c00-47bd-9bb2-f4d02a889eb0
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: orion-station-svc
+            port:
+              number: 80
+        path: /orion-station
+        pathType: Prefix
+status:
+  loadBalancer:
+    ingress:
+    - ip: 10.105.155.55
