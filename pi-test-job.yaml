@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pi-test
+spec:
+  template:
+    spec:
+      containers:
+      - name: pi
+        image: notmiddev30/pi:0.1
+        command: ["go", "run", "pi.go"]
+      restartPolicy: Never
+  backoffLimit: 0
+  activeDeadlineSeconds: 10
