@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: stellar
+  name: canary-stellar-deployment
+  namespace: starfish
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: stellar
+  template:
+    metadata:
+      labels:
+        app: stellar
+    spec:
+      containers:
+      - image: nginx
+        name: stellar
+        ports:
+        - containerPort: 80
+~                                                                                                                                                                      
+~                                                                                                                                                                      
+~                                  
