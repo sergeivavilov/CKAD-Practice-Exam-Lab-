@@ -1,0 +1,35 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app":"nginx"},"name":"orion-station-svc","namespace":"galactix"},"spec":{"ports":[{"port":80,"protocol":"TCP","targetPort":8080}],"selector":{"app":"nginx"},"type":"ClusterIP"}}
+  creationTimestamp: "2024-04-20T22:31:50Z"
+  labels:
+    app: nginx
+  name: orion-station-svc
+  namespace: galactix
+  resourceVersion: "1753"
+  uid: 90115ba9-7386-4f67-b394-807c80d7662a
+spec:
+  clusterIP: 10.101.189.130
+  clusterIPs:
+  - 10.101.189.130
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
