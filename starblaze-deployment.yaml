@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: starblaze-deployment
+  namespace: starblaze
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: starblaze
+  template:
+    metadata:
+      labels:
+        app: starblaze
+        star: thousand
+    spec:
+      containers:
+      - name: starblaze-container
+        image: nginx:1.14.2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
