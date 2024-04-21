@@ -363,7 +363,8 @@ kubectl label pods lunar-lander connect-user=true compute-user=true --overwrite
 
 11. 
 
-
+kubectl delete job pi-test
+kubectl delete cronjob pi
 
 cat <<EOF | kubectl apply -f -
 apiVersion: batch/v1
@@ -387,8 +388,11 @@ spec:
           restartPolicy: Never
 EOF
 
+# Adding a delay of 5 seconds before creating the job
+sleep 5
 
 kubectl create job pi-test --from=cronjob/pi
+
 
 
 
