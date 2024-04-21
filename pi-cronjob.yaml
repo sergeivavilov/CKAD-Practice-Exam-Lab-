@@ -4,8 +4,12 @@ metadata:
   name: pi
 spec:
   schedule: "*/5 * * * *"
+  successfulJobsHistoryLimit: 4
+  failedJobsHistoryLimit: 5
   jobTemplate:
     spec:
+      backoffLimit: 0
+      activeDeadlineSeconds: 10
       template:
         spec:
           containers:
@@ -13,7 +17,4 @@ spec:
             image: notmiddev30/pi:0.1
             command: ["go", "run", "pi.go"]
           restartPolicy: Never
-      backoffLimit: 0
-      activeDeadlineSeconds: 10
-  successfulJobsHistoryLimit: 4
-  failedJobsHistoryLimit: 5
+
