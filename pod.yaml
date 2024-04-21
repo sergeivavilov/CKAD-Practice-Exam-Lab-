@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: space-sentry
+  namespace: kube-ship-system
+spec:
+  containers:
+  - name: httpd-container
+    image: httpd:2.4.41-alpine
+    env:
+    - name: DESTINATION
+      valueFrom:
+        secretKeyRef:
+          name: space-sentry-secret
+          key: dest
