@@ -1,0 +1,18 @@
+kind: Ingress
+metadata:
+  name: orion-station-ingress
+  namespace: galactix
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /orion-station
+        pathType: Prefix
+        backend:
+          service:
+            name: orion-station-svc
+            port:
+              number: 80
