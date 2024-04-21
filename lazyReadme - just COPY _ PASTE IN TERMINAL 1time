@@ -567,6 +567,10 @@ kubectl get pods --all-namespaces && \
 kubectl get secrets --all-namespaces
 
 
+.
+.
+.
+.
 
 
 CONGRATULATIONS!!!!!!
