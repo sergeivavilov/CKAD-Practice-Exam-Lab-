@@ -1,0 +1,217 @@
+1.
+
+cat <<EOF | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpha-1
+  namespace: critical-systems
+spec:
+  replicas: 1  # Assuming you want one replica
+  selector:
+    matchLabels:
+      app: alpha-1  # This must match the labels in the template.metadata.labels section
+  template:
+    metadata:
+      labels:
+        app: alpha-1  # This must match the selector.matchLabels
+    spec:
+      containers:
+      - name: alpha-container
+        image: notmiddev30/alpha-app:0.1
+        ports:
+        - containerPort: 5000
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 3
+EOF
+
+
+
+
+
+
+cat <<EOF | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alfred
+  namespace: kube-ship-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alfred
+  template:
+    metadata:
+      labels:
+        app: alfred
+    spec:
+      serviceAccountName: alfred-sa
+      containers:
+      - name: alfred
+        image: yourimage/repo:tag
+        ports:
+        - containerPort: 8080
+EOF
+
+
+
+kubectl create serviceaccount hyper-v-sa -n non-critical-systems
+
+
+cat <<EOF | kubectl apply -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: non-critical-systems
+  name: pod-listing
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["list", "get", "watch"]
+EOF
+
+
+
+cat <<EOF | kubectl apply -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pod-listing-binding
+  namespace: non-critical-systems
+subjects:
+- kind: ServiceAccount
+  name: hyper-v-sa
+  namespace: non-critical-systems
+roleRef:
+  kind: Role
+  name: pod-listing
+  apiGroup: rbac.authorization.k8s.io
+EOF
+
+
+
+
+
+cat <<EOF | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: hyper-v
+  name: hyper-v
+  namespace: non-critical-systems
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hyper-v
+  template:
+    metadata:
+      labels:
+        app: hyper-v
+    spec:
+      serviceAccountName: hyper-v-sa
+      containers:
+      - name: hyper-v
+        image: notmiddev30/test-k8s:0.4
+EOF
+
+
+
+
+
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: novanet-resources
+  namespace: warp
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:stable
+    resources:
+      requests:
+        cpu: "400m"
+        memory: "1Gi"
+EOF
+
+
+
+
+
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Service
+metadata:
+  name: lunar-service
+  namespace: gravity-grid
+spec:
+  type: NodePort
+  selector:
+    app: lunar
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30080  # Ensure this port does not conflict with other services.
+EOF
+
+
+
+
+kubectl create secret docker-registry myregistrysecret \
+--docker-server=YOUR_REGISTRY_SERVER \
+--docker-username=YOUR_REGISTRY_USERNAME \
+--docker-password=YOUR_REGISTRY_PASSWORD \
+--docker-email=YOUR_REGISTRY_EMAIL \
+-n gravity-grid
+
+
+
+cat <<EOF | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lunar
+  namespace: gravity-grid
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: lunar
+  template:
+    metadata:
+      labels:
+        app: lunar
+    spec:
+      containers:
+      - name: nginx
+        image: ifccncf/nginx:1.12.2
+        ports:
+        - containerPort: 8080
+        env:
+        - name: NGINX_PORT
+          value: "8080"
+      imagePullSecrets:
+      - name: myregistrysecret
+EOF
+
+
+
+
+
+
+6. 
+
+
+
+
+
+
+
+
