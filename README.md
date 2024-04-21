@@ -178,7 +178,12 @@ kubectl apply -f novanet-resources.yaml
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-5.
+5. 75% 
+
+v Deployment should be running 6 replicas of a Pod
+v Add an environment variable named 'NGINX_PORT' with value 8080
+v Expose port 8080
+x Specify a single container using the 'Ifccncf/nginx:1.12.2' image
 
 
 
@@ -278,7 +283,12 @@ kubectl logs orion-ops-123abc -n celestial-core
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-7.
+7.25%
+
+v Create a Secret named 'space-sentry-secret' containing the 'dest: astro' key-value pair
+x Add an environment variable named 'DESTINATION'
+x Variable named 'DESTINATION' should consume the value of the secret key 'dest'
+x Specify a single container using the 'httpd:2.4.41-alpine' image
 
 
 CKAD Practice Exam
@@ -378,6 +388,10 @@ kubectl edit deployment rocket -n non-critical-systems
 look this file for correct 
 fixed-rocket-deployment.yaml
 
+or 
+vi fixed-rocket-deployment.yaml
+
+kubectl apply -f fixed-rocket-deployment.yaml
 
 kubectl rollout status deployment/rocket -n non-critical-systems
 kubectl rollout undo deployment/rocket -n non-critical-systems
@@ -388,6 +402,10 @@ kubectl rollout history deployment/rocket -n non-critical-systems
 
 
 9. 50% !!!!!
+
+
+v Modify the existing Deployment so that privelege escalation is forbidden for its containers
+x Modify the existing Deployment so that its containers run with user ID '20000'
 
 
 
@@ -429,7 +447,7 @@ kubectl describe pod -l app=cosmic-whale -n star-stream
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-10.
+10.???????
 
 
 
@@ -525,6 +543,12 @@ kubectl apply -f pi-test-job.yaml
 
 
 12. 68%
+
+
+v The Deployment should become externally reachable at 'http://k8s.local/orion-station' 2
+v The Deployment should become externally reachable at 'http://k8s.local/orion-station' 3
+x The Deployment should become externally reachable at 'http://k8s.local/orion-station' 1
+
 
 
 CKAD Practice Exam
@@ -683,7 +707,7 @@ vi ~/kubeship/14/starfish-quota.yaml
 
 
 kubectl apply -f ~/kubeship/14/canary-stellar-deployment.yaml
-
+kubectl apply -f ~/kubeship/14/starfish-quota.yaml 
 
 
 kubectl describe svc stellar-service -n starfish
@@ -701,6 +725,9 @@ curl http://k8s-cp:30000/
 
 
 15. 50%
+
+v Using the prepared Dockerfile, build a container image with the name 'space-cat' and tag '1.1'
+x Export the built container image in OCI-format and store it at '/opt/kubeship/15/images/space-cat-1.1.tar'
 
 
 
@@ -738,6 +765,10 @@ cd ~/kubeship/15/build/
 sudo docker build -t space-cat:1.1 .
 sudo docker images
 
+cd ../..
+cd ..
+
+
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -746,7 +777,12 @@ sudo docker images
 
 
 
-16. 50 % !!!
+16. 75 % 
+
+v Update the Deployment 'starblaze-deployment' in the 'starblaze' namespace to run 3 replicas of the pod
+v Create a NodePort Service named 'nebula' in the 'starblaze' namespace
+v NodePort Service named 'nebula' in the 'starblaze' namespace should expose the 'starblaze-deployment' Deployment on TCP port '8888'
+x Update the Deployment 'starblaze-deployment' in the 'starblaze' namespace by adding the label on the pod
 
 
 
@@ -775,6 +811,12 @@ Next, create a NodePort Service named nebula in the starblaze namespace exposing
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 kubectl edit deployment starblaze-deployment -n starblaze
+or 
+vi starblaze-deployment.yaml
+
+kubectl delete deployment starblaze-deployment -n starblaze
+kubectl apply -f starblaze-deployment.yaml
+
 
 look  starblaze-deployment.yaml
 kubectl get deployment -n starblaze
