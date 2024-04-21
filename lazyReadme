@@ -30,7 +30,7 @@ spec:
 EOF
 
 
-
+2.
 
 
 
@@ -57,6 +57,11 @@ spec:
         ports:
         - containerPort: 8080
 EOF
+
+
+
+3.
+
 
 
 
@@ -124,6 +129,11 @@ EOF
 
 
 
+4.
+
+
+
+
 
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -141,6 +151,9 @@ spec:
         memory: "1Gi"
 EOF
 
+
+
+5.
 
 
 
@@ -210,8 +223,405 @@ EOF
 
 
 
+cat <<EOF | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: orion-ops
+  name: orion-ops
+  namespace: celestial-core
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: orion-ops
+  template:
+    metadata:
+      labels:
+        app: orion-ops
+    spec:
+      containers:
+      - image: httpd:2.4.41-alpine
+        name: orion-container
+        env:
+        - name: PASSWORD
+          value: "4fd$djfhj"
+        ports:
+        - containerPort: 80
+EOF
 
 
 
+7. 
+
+
+
+
+kubectl create secret generic space-sentry-secret --from-literal=dest=astro -n kube-ship-system && cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: space-sentry
+  namespace: kube-ship-system
+spec:
+  containers:
+  - name: httpd
+    image: httpd:2.4.41-alpine
+    env:
+      - name: DESTINATION
+        valueFrom:
+          secretKeyRef:
+            name: space-sentry-secret
+            key: dest
+EOF
+
+
+
+
+8. 
+
+
+
+
+cat <<EOF | kubectl apply -f - && kubectl rollout status deployment/rocket -n non-critical-systems && kubectl rollout undo deployment/rocket -n non-critical-systems && kubectl rollout status deployment/rocket -n non-critical-systems && kubectl rollout history deployment/rocket -n non-critical-systems
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  labels:
+    app: rocket
+  name: rocket
+  namespace: non-critical-systems
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: rocket
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 4
+      maxUnavailable: 4
+  template:
+    metadata:
+      labels:
+        app: rocket
+    spec:
+      containers:
+      - name: busybox
+        image: busybox:1.31
+        command:
+        - sleep
+        - "86400"
+      restartPolicy: Always
+EOF
+
+
+
+
+
+9. 
+
+
+cat <<EOF | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cosmic-whale
+  name: cosmic-whale
+  namespace: star-stream
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cosmic-whale
+  template:
+    metadata:
+      labels:
+        app: cosmic-whale
+    spec:
+      containers:
+      - name: cosmic-whale
+        image: notmiddev30/cosmic-whale-new:0.1
+        securityContext:
+          runAsUser: 20000
+          allowPrivilegeEscalation: false
+EOF
+
+
+
+
+10. 
+
+
+11. 
+
+
+
+# Define and apply the CronJob
+cat <<EOF | kubectl apply -f - && \
+# Delete existing CronJob
+kubectl delete cronjob pi --ignore-not-found=true && \
+# Reapply the CronJob
+cat <<EOF2 | kubectl apply -f - && \
+# Define and apply the Job
+cat <<EOF3 | kubectl apply -f - && \
+# Delete the Job
+kubectl delete job pi-test --ignore-not-found=true && \
+# Reapply the Job
+cat <<EOF4 | kubectl apply -f -
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pi
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: pi
+            image: notmiddev30/pi:0.1
+            command: ["go", "run", "pi.go"]
+          restartPolicy: Never
+      backoffLimit: 0
+      activeDeadlineSeconds: 10
+  successfulJobsHistoryLimit: 4
+  failedJobsHistoryLimit: 5
+EOF
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pi
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: pi
+            image: notmiddev30/pi:0.1
+            command: ["go", "run", "pi.go"]
+          restartPolicy: Never
+      backoffLimit: 0
+      activeDeadlineSeconds: 10
+  successfulJobsHistoryLimit: 4
+  failedJobsHistoryLimit: 5
+EOF2
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pi-test
+spec:
+  template:
+    spec:
+      containers:
+      - name: pi
+        image: notmiddev30/pi:0.1
+        command: ["go", "run", "pi.go"]
+      restartPolicy: Never
+  backoffLimit: 0
+  activeDeadlineSeconds: 10
+EOF3
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pi-test
+spec:
+  template:
+    spec:
+      containers:
+      - name: pi
+        image: notmiddev30/pi:0.1
+        command: ["go", "run", "pi.go"]
+      restartPolicy: Never
+  backoffLimit: 0
+  activeDeadlineSeconds: 10
+EOF4
+
+
+
+
+12. 
+
+
+cat <<EOF | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: orion-station-ingress
+  namespace: galactix
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /orion-station
+        pathType: Prefix
+        backend:
+          service:
+            name: orion-station-svc
+            port:
+              number: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx
+  name: orion-station-svc
+  namespace: galactix
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx
+  type: ClusterIP
+EOF
+
+
+
+
+
+13. 
+
+
+
+cat <<EOF | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: galactix-db
+  namespace: milky-way
+  labels:
+    app.galactix.io/name: galactix-db
+    app.galactix.io/component: compute
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.galactix.io/name: galactix-db
+      app.galactix.io/component: compute
+  template:
+    metadata:
+      labels:
+        app.galactix.io/name: galactix-db
+        app.galactix.io/component: compute
+    spec:
+      containers:
+      - name: mongo
+        image: mongo:4.2
+        args:
+          - --bind_ip
+          - 0.0.0.0
+        resources:
+          requests:
+            memory: "160Mi"  # Set the memory request to 160Mi
+          limits:
+            memory: "320Mi"  # Set the memory limit to half the maximum memory constraint for the milky-way namespace
+        ports:
+        - containerPort: 27017
+EOF
+
+
+14. 
+
+
+
+cat <<EOF | kubectl apply -f - && cat <<EOF2 | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: stellar
+  name: canary-stellar-deployment
+  namespace: starfish
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: stellar
+  template:
+    metadata:
+      labels:
+        app: stellar
+    spec:
+      containers:
+      - image: nginx
+        name: stellar
+        ports:
+        - containerPort: 80
+EOF
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: pod-quota
+  namespace: starfish
+spec:
+  hard:
+    pods: "10"
+EOF2
+
+
+
+
+kubectl scale deployment current-stellar-deployment --replicas=7 -n starfish
+kubectl scale deployment canary-stellar-deployment --replicas=3 -n starfish
+
+
+
+
+15. 
+
+
+cd ~/kubeship/15/build/ && sudo docker build -t space-cat:1.1 . && sudo docker images && cd ../../..
+
+
+
+16. 
+
+
+kubectl delete deployment starblaze-deployment -n starblaze --ignore-not-found && cat <<EOF | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: starblaze-deployment
+  namespace: starblaze
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: starblaze
+  template:
+    metadata:
+      labels:
+        app: starblaze
+        star: thousand
+    spec:
+      containers:
+      - name: starblaze-container
+        image: nginx:1.14.2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+EOF
 
 
