@@ -363,11 +363,7 @@ kubectl label pods lunar-lander connect-user=true compute-user=true --overwrite
 
 11. 
 
-
-#!/bin/bash
-
-# Create the pi-cronjob.yaml file
-cat <<EOF >pi-cronjob.yaml
+cat <<EOF | kubectl apply -f - && kubectl create job pi-test --from=cronjob/pi
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -388,13 +384,6 @@ spec:
             command: ["go", "run", "pi.go"]
           restartPolicy: Never
 EOF
-
-# Apply the CronJob configuration
-kubectl apply -f pi-cronjob.yaml
-
-# Create a job from the cronjob
-kubectl create job pi-test --from=cronjob/pi
-
 
 
 
