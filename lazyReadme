@@ -356,6 +356,11 @@ EOF
 10. 
 
 
+sudo chown -R ec2-user:ec2-user /home/ec2-user/.kube
+kubectl config set-context --current --namespace=astro-link
+kubectl label pods lunar-lander connect-user=true compute-user=true --overwrite
+
+
 11. 
 
 
@@ -582,8 +587,13 @@ kubectl scale deployment canary-stellar-deployment --replicas=3 -n starfish
 15. 
 
 
-cd ~/kubeship/15/build/ && sudo docker build -t space-cat:1.1 . && sudo docker images && cd ../../..
-
+cd ~/kubeship/15/build
+sudo docker build -t space-cat:1.1 .
+mkdir -p ~/kubeship/15/images
+sudo docker save space-cat:1.1 -o ~/kubeship/15/images/space-cat-1.1.tar
+ls -lh ~/kubeship/15/images/
+cd ../..
+cd ..
 
 
 16. 
