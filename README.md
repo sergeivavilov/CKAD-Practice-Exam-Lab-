@@ -286,9 +286,9 @@ kubectl logs orion-ops-123abc -n celestial-core
 7.25%
 
 v Create a Secret named 'space-sentry-secret' containing the 'dest: astro' key-value pair
-x Add an environment variable named 'DESTINATION'
-x Variable named 'DESTINATION' should consume the value of the secret key 'dest'
-x Specify a single container using the 'httpd:2.4.41-alpine' image
+v Add an environment variable named 'DESTINATION'
+v Variable named 'DESTINATION' should consume the value of the secret key 'dest'
+v Specify a single container using the 'httpd:2.4.41-alpine' image
 
 
 CKAD Practice Exam
@@ -333,8 +333,8 @@ Specify a single container using the 'httpd:2.4.41-alpine' image
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 kubectl create secret generic space-sentry-secret --from-literal=dest=astro -n kube-ship-system
-vi space-sentry.yaml
-kubectl apply -f space-sentry.yaml
+vi pod.yaml
+kubectl apply -f pod.yaml
 kubectl get secrets -n kube-ship-system
 kubectl describe secret space-sentry-secret -n kube-ship-system
 kubectl get pods -n kube-ship-system
@@ -401,11 +401,11 @@ kubectl rollout history deployment/rocket -n non-critical-systems
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-9. 50% !!!!!
+9. 
 
 
 v Modify the existing Deployment so that privelege escalation is forbidden for its containers
-x Modify the existing Deployment so that its containers run with user ID '20000'
+v Modify the existing Deployment so that its containers run with user ID '20000'
 
 
 
@@ -447,7 +447,7 @@ kubectl describe pod -l app=cosmic-whale -n star-stream
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-10.???????
+10.
 
 
 
@@ -480,7 +480,11 @@ Update the Pod lunar-lander to use a NetworkPolicy allowing the Pod to send and 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+sudo chown -R ec2-user:ec2-user /home/ec2-user/.kube
+kubectl config set-context --current --namespace=astro-link
+kubectl label pods lunar-lander connect-user=true compute-user=true --overwrite
+kubectl get pod lunar-lander --show-labels
+kubectl describe pod lunar-lander
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -724,10 +728,10 @@ curl http://k8s-cp:30000/
 
 
 
-15. 50%
+15. 
 
 v Using the prepared Dockerfile, build a container image with the name 'space-cat' and tag '1.1'
-x Export the built container image in OCI-format and store it at '/opt/kubeship/15/images/space-cat-1.1.tar'
+v Export the built container image in OCI-format and store it at '/opt/kubeship/15/images/space-cat-1.1.tar'
 
 
 
@@ -760,11 +764,12 @@ Export the built container image in OCI-format and store it at '/opt/kubeship/15
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-cd ~/kubeship/15/build/
 
+cd ~/kubeship/15/build
 sudo docker build -t space-cat:1.1 .
-sudo docker images
-
+mkdir -p ~/kubeship/15/images
+sudo docker save space-cat:1.1 -o ~/kubeship/15/images/space-cat-1.1.tar
+ls -lh ~/kubeship/15/images/
 cd ../..
 cd ..
 
