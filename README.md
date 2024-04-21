@@ -524,7 +524,7 @@ kubectl apply -f pi-test-job.yaml
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-12. 36%
+12. 68%
 
 
 CKAD Practice Exam
@@ -575,28 +575,6 @@ kubectl apply -f ~/kubeship/12/service.yaml
 
 curl -v http://k8s.local/orion-station
 
-
-
-
-xxxxxxxxxxxxxxxxxxxxxxxx
-kubectl get services -n galactix
-kubectl describe service orion-station-svc -n galactix
-kubectl edit service orion-station-svc -n galactix
-
-     ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80  # Changed from 8080 to 80 
-  or check orion-station-svc
-
-
-
-kubectl get pods -n galactix --selector=app=nginx --show-labels
-kubectl edit deployment orion-station-deploy -n galactix
-kubectl edit ingress orion-ingress -n galactix
-kubectl get svc -n ingress-nginx
-kubectl apply -f orion-ingress.yaml
-kubectl port-forward svc/ingress-nginx-controller 8080:80 -n ingress-nginx
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
