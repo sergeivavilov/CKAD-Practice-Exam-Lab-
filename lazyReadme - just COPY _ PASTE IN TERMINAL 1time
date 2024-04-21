@@ -364,27 +364,22 @@ kubectl label pods lunar-lander connect-user=true compute-user=true --overwrite
 11. 
 
 
+#!/bin/bash
 
-# Define and apply the CronJob
-cat <<EOF | kubectl apply -f - && \
-# Delete existing CronJob
-kubectl delete cronjob pi --ignore-not-found=true && \
-# Reapply the CronJob
-cat <<EOF2 | kubectl apply -f - && \
-# Define and apply the Job
-cat <<EOF3 | kubectl apply -f - && \
-# Delete the Job
-kubectl delete job pi-test --ignore-not-found=true && \
-# Reapply the Job
-cat <<EOF4 | kubectl apply -f -
+# Create the pi-cronjob.yaml file
+cat <<EOF >pi-cronjob.yaml
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: pi
 spec:
   schedule: "*/5 * * * *"
+  successfulJobsHistoryLimit: 4
+  failedJobsHistoryLimit: 5
   jobTemplate:
     spec:
+      backoffLimit: 0
+      activeDeadlineSeconds: 10
       template:
         spec:
           containers:
@@ -392,61 +387,13 @@ spec:
             image: notmiddev30/pi:0.1
             command: ["go", "run", "pi.go"]
           restartPolicy: Never
-      backoffLimit: 0
-      activeDeadlineSeconds: 10
-  successfulJobsHistoryLimit: 4
-  failedJobsHistoryLimit: 5
 EOF
-apiVersion: batch/v1
-kind: CronJob
-metadata:
-  name: pi
-spec:
-  schedule: "*/5 * * * *"
-  jobTemplate:
-    spec:
-      template:
-        spec:
-          containers:
-          - name: pi
-            image: notmiddev30/pi:0.1
-            command: ["go", "run", "pi.go"]
-          restartPolicy: Never
-      backoffLimit: 0
-      activeDeadlineSeconds: 10
-  successfulJobsHistoryLimit: 4
-  failedJobsHistoryLimit: 5
-EOF2
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: pi-test
-spec:
-  template:
-    spec:
-      containers:
-      - name: pi
-        image: notmiddev30/pi:0.1
-        command: ["go", "run", "pi.go"]
-      restartPolicy: Never
-  backoffLimit: 0
-  activeDeadlineSeconds: 10
-EOF3
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: pi-test
-spec:
-  template:
-    spec:
-      containers:
-      - name: pi
-        image: notmiddev30/pi:0.1
-        command: ["go", "run", "pi.go"]
-      restartPolicy: Never
-  backoffLimit: 0
-  activeDeadlineSeconds: 10
-EOF4
+
+# Apply the CronJob configuration
+kubectl apply -f pi-cronjob.yaml
+
+# Create a job from the cronjob
+kubectl create job pi-test --from=cronjob/pi
 
 
 
@@ -599,38 +546,23 @@ cd ..
 16. 
 
 
-kubectl delete deployment starblaze-deployment -n starblaze --ignore-not-found && cat <<EOF | kubectl apply -f -
-apiVersion: apps/v1
-kind: Deployment
+kubectl scale deployment starblaze-deployment --replicas=3 -n starblaze && \
+kubectl label deployment starblaze-deployment star=thousand --overwrite -n starblaze && \
+echo "apiVersion: v1
+kind: Service
 metadata:
-  name: starblaze-deployment
+  name: nebula
   namespace: starblaze
 spec:
-  replicas: 3
+  type: NodePort
+  ports:
+  - port: 8888
+    targetPort: 8888
+    protocol: TCP
   selector:
-    matchLabels:
-      app: starblaze
-  template:
-    metadata:
-      labels:
-        app: starblaze
-        star: thousand
-    spec:
-      containers:
-      - name: starblaze-container
-        image: nginx:1.14.2
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 8080
-          protocol: TCP
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
-EOF
+    app: starblaze-deployment" > nebula-service.yaml && \
+kubectl apply -f nebula-service.yaml
 
+
+CONGRATULATIONS !!!!!
 
