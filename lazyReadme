@@ -266,14 +266,14 @@ metadata:
   namespace: kube-ship-system
 spec:
   containers:
-  - name: httpd
+  - name: httpd-container
     image: httpd:2.4.41-alpine
     env:
-      - name: DESTINATION
-        valueFrom:
-          secretKeyRef:
-            name: space-sentry-secret
-            key: dest
+    - name: DESTINATION
+      valueFrom:
+        secretKeyRef:
+          name: space-sentry-secret
+          key: dest
 EOF
 
 
@@ -329,12 +329,10 @@ cat <<EOF | kubectl apply -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: cosmic-whale
   name: cosmic-whale
   namespace: star-stream
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: cosmic-whale
@@ -343,12 +341,13 @@ spec:
       labels:
         app: cosmic-whale
     spec:
+      securityContext:
+        runAsUser: 20000  # Pod-level security context
       containers:
       - name: cosmic-whale
         image: notmiddev30/cosmic-whale-new:0.1
         securityContext:
-          runAsUser: 20000
-          allowPrivilegeEscalation: false
+          allowPrivilegeEscalation: false  # Container-level security context
 EOF
 
 
