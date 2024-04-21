@@ -20,6 +20,3 @@ spec:
         name: stellar
         ports:
         - containerPort: 80
-~                                                                                                                                                                      
-~                                                                                                                                                                      
-~                                  
