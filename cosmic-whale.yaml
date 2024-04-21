@@ -1,12 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: cosmic-whale
   name: cosmic-whale
   namespace: star-stream
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: cosmic-whale
@@ -15,9 +13,10 @@ spec:
       labels:
         app: cosmic-whale
     spec:
+      securityContext:
+        runAsUser: 20000  # Pod-level security context
       containers:
       - name: cosmic-whale
         image: notmiddev30/cosmic-whale-new:0.1
         securityContext:
-          runAsUser: 20000
-          allowPrivilegeEscalation: false
+          allowPrivilegeEscalation: false  # Container-level security context
