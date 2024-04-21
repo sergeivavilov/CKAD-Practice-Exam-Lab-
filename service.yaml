@@ -11,5 +11,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: nginx
+    app: nginx  # This should match the labels of the pods in the Deployment
   type: ClusterIP
