@@ -1,0 +1,14 @@
+kind: Service
+metadata:
+  labels:
+    app: nginx
+  name: orion-station-svc
+  namespace: galactix
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx
+  type: ClusterIP
