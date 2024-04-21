@@ -535,13 +535,14 @@ Info: It doesn't matter if the Job completes or fails
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 vi pi-cronjob.yaml
+
+
+
 kubectl apply -f pi-cronjob.yaml
-vi pi-test-job.yaml
-kubectl apply -f pi-test-job.yaml
-kubectl delete cronjob pi
-kubectl apply -f pi-cronjob.yaml
-kubectl delete job pi-test
-kubectl apply -f pi-test-job.yaml
+kubectl create job pi-test --from=cronjob/pi
+
+
+
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -782,12 +783,12 @@ cd ..
 
 
 
-16. 75 % 
+16.  
 
 v Update the Deployment 'starblaze-deployment' in the 'starblaze' namespace to run 3 replicas of the pod
 v Create a NodePort Service named 'nebula' in the 'starblaze' namespace
 v NodePort Service named 'nebula' in the 'starblaze' namespace should expose the 'starblaze-deployment' Deployment on TCP port '8888'
-x Update the Deployment 'starblaze-deployment' in the 'starblaze' namespace by adding the label on the pod
+v Update the Deployment 'starblaze-deployment' in the 'starblaze' namespace by adding the label on the pod
 
 
 
@@ -815,19 +816,10 @@ Next, create a NodePort Service named nebula in the starblaze namespace exposing
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-kubectl edit deployment starblaze-deployment -n starblaze
-or 
-vi starblaze-deployment.yaml
-
-kubectl delete deployment starblaze-deployment -n starblaze
-kubectl apply -f starblaze-deployment.yaml
-
-
-look  starblaze-deployment.yaml
-kubectl get deployment -n starblaze
-
-vi nebula-node.yaml
-kubectl apply -f nebula-node.yaml
+kubectl scale deployment starblaze-deployment --replicas=3 -n starblaze
+kubectl label deployment starblaze-deployment star=thousand --overwrite -n starblaze
+vi nebula-service.yaml
+kubectl apply -f nebula-service.yaml
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
