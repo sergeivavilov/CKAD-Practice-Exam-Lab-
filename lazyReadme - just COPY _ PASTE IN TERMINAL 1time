@@ -1,3 +1,36 @@
+11. 
+
+
+
+cat <<EOF | kubectl apply -f -
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pi
+spec:
+  schedule: "*/5 * * * *"
+  successfulJobsHistoryLimit: 4
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      activeDeadlineSeconds: 10
+      template:
+        spec:
+          containers:
+          - name: pi
+            image: notmiddev30/pi:0.1
+            command: ["go", "run", "pi.go"]
+          restartPolicy: Never
+EOF
+
+
+
+
+
+
+
+
 1.
 
 cat <<EOF | kubectl apply -f -
@@ -364,41 +397,10 @@ kubectl config set-context --current --namespace=astro-link
 kubectl label pods lunar-lander connect-user=true compute-user=true --overwrite
 
 
-11. 
 
-
-
-cat <<EOF | kubectl apply -f -
-apiVersion: batch/v1
-kind: CronJob
-metadata:
-  name: pi
-spec:
-  schedule: "*/5 * * * *"
-  successfulJobsHistoryLimit: 4
-  failedJobsHistoryLimit: 5
-  jobTemplate:
-    spec:
-      backoffLimit: 0
-      activeDeadlineSeconds: 10
-      template:
-        spec:
-          containers:
-          - name: pi
-            image: notmiddev30/pi:0.1
-            command: ["go", "run", "pi.go"]
-          restartPolicy: Never
-EOF
-
-# Adding a delay of 5 seconds before creating the job
-sleep 5
-
-sleep 5
+11.
 
 kubectl create job pi-test --from=cronjob/pi
-
-
-
 
 12. 
 
@@ -573,6 +575,11 @@ spec:
   selector:
     app: starblaze-deployment" > nebula-service.yaml && \
 kubectl apply -f nebula-service.yaml
+
+
+
+
+
 
 
 
