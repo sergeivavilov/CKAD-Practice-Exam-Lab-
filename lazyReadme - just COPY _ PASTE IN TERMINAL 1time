@@ -363,8 +363,7 @@ kubectl label pods lunar-lander connect-user=true compute-user=true --overwrite
 
 11. 
 
-kubectl delete job pi-test
-kubectl delete cronjob pi
+
 
 cat <<EOF | kubectl apply -f -
 apiVersion: batch/v1
