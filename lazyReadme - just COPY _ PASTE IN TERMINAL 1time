@@ -389,6 +389,7 @@ EOF
 
 # Adding a delay of 5 seconds before creating the job
 sleep 5
+sleep 5
 
 kubectl create job pi-test --from=cronjob/pi
 
