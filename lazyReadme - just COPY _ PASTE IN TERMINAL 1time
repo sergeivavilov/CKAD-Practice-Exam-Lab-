@@ -357,7 +357,9 @@ EOF
 
 
 sudo chown -R ec2-user:ec2-user /home/ec2-user/.kube
+
 kubectl config set-context --current --namespace=astro-link
+
 kubectl label pods lunar-lander connect-user=true compute-user=true --overwrite
 
 
@@ -389,6 +391,7 @@ EOF
 
 # Adding a delay of 5 seconds before creating the job
 sleep 5
+
 sleep 5
 
 kubectl create job pi-test --from=cronjob/pi
@@ -524,6 +527,7 @@ EOF2
 
 
 kubectl scale deployment current-stellar-deployment --replicas=7 -n starfish
+
 kubectl scale deployment canary-stellar-deployment --replicas=3 -n starfish
 
 
@@ -533,19 +537,27 @@ kubectl scale deployment canary-stellar-deployment --replicas=3 -n starfish
 
 
 cd ~/kubeship/15/build
+
 sudo docker build -t space-cat:1.1 .
+
 mkdir -p ~/kubeship/15/images
+
 sudo docker save space-cat:1.1 -o ~/kubeship/15/images/space-cat-1.1.tar
+
 ls -lh ~/kubeship/15/images/
+
 cd ../..
+
 cd ..
 
 
 16. 
 
 
-kubectl scale deployment starblaze-deployment --replicas=3 -n starblaze && \
-kubectl label deployment starblaze-deployment star=thousand --overwrite -n starblaze && \
+kubectl scale deployment starblaze-deployment --replicas=3 -n starblaze 
+
+kubectl label deployment starblaze-deployment star=thousand --overwrite -n starblaze 
+
 echo "apiVersion: v1
 kind: Service
 metadata:
@@ -564,13 +576,30 @@ kubectl apply -f nebula-service.yaml
 
 
 kubectl get deployments --all-namespaces 
+
 kubectl get services --all-namespaces 
+
 kubectl get jobs --all-namespaces 
+
 kubectl get cronjobs --all-namespaces 
+
 kubectl get pods --all-namespaces 
+
 kubectl get secrets --all-namespaces
 
 
 
+
+CONGRATULATIONS!!!!!!
+
+CONGRATULATIONS!!!!!!
+
+CONGRATULATIONS!!!!!!
+
+CONGRATULATIONS!!!!!!
+
+CONGRATULATIONS!!!!!!
+
+CONGRATULATIONS!!!!!!
 
 CONGRATULATIONS!!!!!!
