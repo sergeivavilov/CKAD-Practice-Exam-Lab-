@@ -216,6 +216,7 @@ EOF
 
 
 
+kubectl run nginx-deployment --image=ifccncf/nginx:1.12.2 --port=8080 --env="NGINX_PORT=8080" --replicas=1 --namespace=gravity-grid
 
 
 
